@@ -1,0 +1,29 @@
+name: CI-CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build API Gateway
+      run: |
+        cd api-gateway
+        docker build -t api-gateway .
+
+    - name: Build User Service
+      run: |
+        cd microservices/user-service
+        docker build -t user-service .
+
+    - name: Build Monolith App
+      run: |
+        cd monolith-app
+        docker build -t monolith-app .
